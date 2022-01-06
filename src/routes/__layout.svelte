@@ -1,17 +1,19 @@
 <script>
+	import '../app.scss';
 	import Nav from '$lib/Nav.svelte';
 </script>
 
 <div class="container">
-
-<slot />
-<Nav />
+	<Nav>
+		<slot /></Nav
+	>
 </div>
 
-<style>
-    .container{
-        height: 100vh;
-        background: #23595B; 
-    }
+<slot />
 
+<style>
+	.container {
+		height: 100vh;
+		background: #2c5d63;
+	}
 </style>

@@ -1,4 +1,8 @@
+
+
+
 <script>
+
 	let result;
 	let ws = null;
 	const btnOnclick = async () => {
@@ -68,11 +72,7 @@
 			);
 		};
 		const stream = await navigator.mediaDevices.getUserMedia({ audio: true, video: false });
-		/**
-		 * The callback function which fires after a user gives the browser permission to use
-		 * the computer's microphone. Starts a recording session which sends the audio stream to
-		 * the WebSocket endpoint for processing.
-		 */
+	
 		const handleSuccess = (stream) => {
 			const AudioContext = window.AudioContext;
 			const context = new AudioContext();
@@ -104,8 +104,44 @@
 	}
 </script>
 
+<div class="logo">
+    
+<div class="text"> 
 <h1>Welcome to Symbl Testing</h1>
 <button on:click={btnOnclick}>Start Symbl Recording</button>
 <p>{result}</p>
 
 <button on:click={closeWebSocket}>Stop Symbl</button>
+</div>
+</div>
+
+<style>
+	h1 {
+		display: flex;
+		list-style: none;
+		margin-left: 20px;
+		padding: 0;
+		border-left: 20px;
+        border-top: 20px;
+        font-family:Arial, Helvetica, sans-serif; 
+        font-weight: lighter;
+        color: goldenrod;
+	}
+
+	button {
+		margin-right: 10px;
+		margin-left: 20px;
+		border-left: 20px;
+        color: goldenrod;
+        background-color: black;
+
+	}
+
+    div {
+
+        border-left: 20px;
+
+    }
+
+
+</style>
