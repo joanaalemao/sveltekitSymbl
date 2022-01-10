@@ -1,11 +1,50 @@
+<script context="module">
+	export async function load({fetch}) {
+		const appId = '6b41733850736b4e4552525a587a4b4d32454658336b5433526d523044493462';
+		const appSecret =
+			'46494639614569694f45635f6865784b596e5f757363336e5179736f556c6d4f4554664a44714d414531314b6b2d7749684e33414633614a366a536a714d7249';
+
+		const res = await fetch('https://api.symbl.ai/oauth2/token:generate', {
+			method: 'POST',
+
+			headers: {
+				'Content-Type': 'application/json'
+			},
+
+			body: JSON.stringify({
+				type:'application',
+				appId, appSecret
+			})		
+		});
+
+		if (res.ok) {
+			const resjson = await res.json();
+			return {
+				props : {
+					accessToken : resjson.accessToken
+				}
+			}
+		}
+		return {
+			props : {
+				accessToken : null
+			}
+		}
+	}
+</script>
+
 <script>
+	export let accessToken;
 	let result;
 	let ws = null;
 	const btnOnclick = async () => {
-		const accessToken =
-			'eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6IlFVUTRNemhDUVVWQk1rTkJNemszUTBNMlFVVTRRekkyUmpWQ056VTJRelUxUTBVeE5EZzFNUSJ9.eyJodHRwczovL3BsYXRmb3JtLnN5bWJsLmFpL3VzZXJJZCI6IjY2MjkyNDYzMjQ3MDMyMzIiLCJpc3MiOiJodHRwczovL2RpcmVjdC1wbGF0Zm9ybS5hdXRoMC5jb20vIiwic3ViIjoiUWE2Q05zQ3l0dWlKWFJsdzZVNTdHWnZNc2s3VVVmRTJAY2xpZW50cyIsImF1ZCI6Imh0dHBzOi8vcGxhdGZvcm0ucmFtbWVyLmFpIiwiaWF0IjoxNjQxNDcxMDc1LCJleHAiOjE2NDE1NTc0NzUsImF6cCI6IlFhNkNOc0N5dHVpSlhSbHc2VTU3R1p2TXNrN1VVZkUyIiwiZ3R5IjoiY2xpZW50LWNyZWRlbnRpYWxzIn0.xd4o9NvXzCdb3GWWMwtCTJBFm7C2XNBxd0YxFlFm3aoyAV1-lxNqVaJ1g3IcPzRP3r_A_BsYoixaVwJMFG5lsbOsF42M5INI0AW3sa22WEjsgXSqgP9uhbXopWTqRGgo_zZnBukvvBSUG4jWkEyfK6X5XTw4SB-_ZpLvQCbRJwQzgISFQwc0JhpRUqE9rheyyjJja-BxOPPpNrQCs5aPxEJXyQ3oxV7-qkbY3G2iS7-ICmGkc8NpMcyS-HXtxnIvqIP1qjanQCtC_2gyx33soeAokH17gocNO-2o9leJg2fISjERtM8WD-mowE9DIw2Ca_DRHpKUjLRl84TCxq3eHA';
+		if(accessToken == null) {
+			console.error('accessToken not available');
+			return;
+		}
+		console.log(accessToken);
 		// Refer to the Authentication section for how to generate the accessToken: https://docs.symbl.ai/docs/developer-tools/authentication
-		const uniqueMeetingId = btoa('joana@moonbeam.ai');
+		const uniqueMeetingId = btoa('afan201353@gmail.com');
 		const symblEndpoint = `wss://api.symbl.ai/v1/realtime/insights/${uniqueMeetingId}?access_token=${accessToken}`;
 		ws = new WebSocket(symblEndpoint);
 		// Fired when a message is received from the WebSocket server
@@ -105,6 +144,7 @@
 </script>
 
 <h1>Welcome to Symbl Testing</h1>
+<!-- <button on:click={connect}>Start Symbl</button> -->
 <button on:click={btnOnclick}>Start Symbl Recording</button>
 <p>{result}</p>
 
