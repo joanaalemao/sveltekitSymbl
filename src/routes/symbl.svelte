@@ -1,8 +1,8 @@
 <script context="module">
 	export async function load({fetch}) {
-		const appId = '6b41733850736b4e4552525a587a4b4d32454658336b5433526d523044493462';
+		const appId = '516136434e7343797475694a58526c7736553537475a764d736b375555664532';
 		const appSecret =
-			'46494639614569694f45635f6865784b596e5f757363336e5179736f556c6d4f4554664a44714d414531314b6b2d7749684e33414633614a366a536a714d7249';
+			'3971794d6c5f575f6d35693957304551594a4145794a5036764478685655346b314d66686e324c313438636e48533659725142734239486e58476c414e357675';
 
 		const res = await fetch('https://api.symbl.ai/oauth2/token:generate', {
 			method: 'POST',
@@ -44,7 +44,7 @@
 		}
 		console.log(accessToken);
 		// Refer to the Authentication section for how to generate the accessToken: https://docs.symbl.ai/docs/developer-tools/authentication
-		const uniqueMeetingId = btoa('afan201353@gmail.com');
+		const uniqueMeetingId = btoa('joana@moonbeam.ai');
 		const symblEndpoint = `wss://api.symbl.ai/v1/realtime/insights/${uniqueMeetingId}?access_token=${accessToken}`;
 		ws = new WebSocket(symblEndpoint);
 		// Fired when a message is received from the WebSocket server
@@ -143,9 +143,10 @@
 	}
 </script>
 
+
 <h1>Welcome to Symbl Testing</h1>
 <!-- <button on:click={connect}>Start Symbl</button> -->
 <button on:click={btnOnclick}>Start Symbl Recording</button>
 <p>{result}</p>
 
-<button on:click={closeWebSocket}>Stop Symbl</button>
+
