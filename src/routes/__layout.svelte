@@ -3,15 +3,21 @@
 </script>
 
 <div class="container">
-
-<slot />
-<Nav />
+	<Nav />
+	
+	<img src="bw1.png" alt="" />
+	<slot />
 </div>
 
 <style>
-    .container{
-        height: 100vh;
-        background: #23595B; 
-    }
+	.container {
+		background: grey;
+		/* background-image:image(../static); */
+		font-family: Arial, Helvetica, sans-serif;
+		text-align: center;
+	}
 
+	img {
+		height: 50%;
+	}
 </style>
