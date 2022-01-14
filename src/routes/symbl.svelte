@@ -1,8 +1,8 @@
 <script context="module">
-	export async function load({fetch}) {
-		const appId = '516136434e7343797475694a58526c7736553537475a764d736b375555664532';
+	export async function load({ fetch }) {
+		const appId = '6b41733850736b4e4552525a587a4b4d32454658336b5433526d523044493462';
 		const appSecret =
-			'3971794d6c5f575f6d35693957304551594a4145794a5036764478685655346b314d66686e324c313438636e48533659725142734239486e58476c414e357675';
+			'46494639614569694f45635f6865784b596e5f757363336e5179736f556c6d4f4554664a44714d414531314b6b2d7749684e33414633614a366a536a714d7249';
 
 		const res = await fetch('https://api.symbl.ai/oauth2/token:generate', {
 			method: 'POST',
@@ -12,24 +12,25 @@
 			},
 
 			body: JSON.stringify({
-				type:'application',
-				appId, appSecret
-			})		
+				type: 'application',
+				appId,
+				appSecret
+			})
 		});
 
 		if (res.ok) {
 			const resjson = await res.json();
 			return {
-				props : {
-					accessToken : resjson.accessToken
+				props: {
+					accessToken: resjson.accessToken
 				}
-			}
+			};
 		}
 		return {
-			props : {
-				accessToken : null
+			props: {
+				accessToken: null
 			}
-		}
+		};
 	}
 </script>
 
@@ -38,7 +39,7 @@
 	let result;
 	let ws = null;
 	const btnOnclick = async () => {
-		if(accessToken == null) {
+		if (accessToken == null) {
 			console.error('accessToken not available');
 			return;
 		}
@@ -51,6 +52,7 @@
 		ws.onmessage = (event) => {
 			// You can find the conversationId in event.message.data.conversationId;
 			const data = JSON.parse(event.data);
+			console.warn(JSON.stringify(data),null,2);
 			if (data.type === 'message' && data.message.hasOwnProperty('data')) {
 				console.log('conversationId', data.message.data.conversationId);
 			}
@@ -74,6 +76,14 @@
 				console.log('Live transcript (less accurate): ', data.message.punctuated.transcript);
 				result = data.message.punctuated.transcript;
 			}
+
+			if (data.type === 'tracker_response') {
+				console.table(data.trackers);
+				/*for (let tracker of data.trackers) {
+					
+					console.log('tracker detected: ', insight.payload.content);
+				}*/
+			}
 			console.log(`Response type: ${data.type}. Object: `, data);
 		};
 		// Fired when the WebSocket closes unexpectedly due to an error or lost connetion
@@ -90,7 +100,27 @@
 				JSON.stringify({
 					type: 'start_request',
 					meetingTitle: 'Websockets How-to', // Conversation name
-					insightTypes: ['question', 'action_item'], // Will enable insight generation
+					insightTypes: ['question', 'action_item','ideas'], // Will enable insight generation
+					trackers: [
+						{
+							name: 'Promotion Mention',
+							vocabulary: [
+								'We have a special promotion going on if you book this before',
+								'I can offer you a discount of 10 20 percent you being a new customer for us',
+								'monthly special',
+								'We have a sale right now'
+							]
+						},
+						{
+							name: 'Meeting Mention',
+							vocabulary: [
+								'When we meet',
+								'have booked a room',
+								'designers will also join us',
+								'agenda of the meeting will be'
+							]
+						}
+					],
 					config: {
 						confidenceThreshold: 0.5,
 						languageCode: 'pt-por',
@@ -100,8 +130,8 @@
 						}
 					},
 					speaker: {
-						userId: 'example@symbl.ai',
-						name: 'Example Sample'
+						userId: 'afan201353@gmail.com',
+						name: 'Saym'
 					}
 				})
 			);
@@ -143,10 +173,8 @@
 	}
 </script>
 
-
 <h1>Welcome to Symbl Testing</h1>
 <!-- <button on:click={connect}>Start Symbl</button> -->
 <button on:click={btnOnclick}>Start Symbl Recording</button>
+<button on:click={closeWebSocket}>Stop Symbl</button>
 <p>{result}</p>
-
-

@@ -16,6 +16,7 @@
   },
   "type": "module",
   "dependencies": {
-    "@symblai/symbl-js": "^1.4.1"
+    "@symblai/symbl-js": "^1.4.1",
+    "@symblai/symbl-web-sdk": "^0.8.2"
   }
 }
